@@ -29,18 +29,45 @@
 import SwiftUI
 
 struct ChallengeView: View {
-  var body: some View {
-    HStack(alignment: .firstTextBaseline) {
-        Text("Welcome to Kuchi").font(.caption)
-        Text("Welcome to Kuchi").font(.title)
-        Button(action: {}, label: { Text("OK").font(.body) })
+    let challengeTest: ChallengeTest
+    @State var showAnswers = false
+    var body: some View {
+        // 1
+        VStack {
+            // 2
+            Button(action: {
+                self.showAnswers = !self.showAnswers
+            }) {
+                // 3
+                QuestionView(question: challengeTest.challenge.question)
+                    .frame(height: 300)
+            }
+            
+            // 4
+            if showAnswers {
+                Divider()
+                // 5
+                ChoicesView(challengeTest: challengeTest)
+                    .frame(height: 300)
+                    .padding()
+            }
+        }
     }
-//    .background(Color.yellow)
-  }
 }
 
 struct ChallengeView_Previews: PreviewProvider {
+  
+  static let challengeTest = ChallengeTest(
+    challenge: Challenge(
+      question: "おねがい　します",
+      pronunciation: "Onegai shimasu",
+      answer: "Please"
+    ),
+    answers: ["Thank you", "Hello", "Goodbye"]
+  )
+
   static var previews: some View {
-    ChallengeView()
+    // 2
+    return ChallengeView(challengeTest: challengeTest)
   }
 }
